@@ -240,8 +240,8 @@ def train_model(train_dataset, train_sampler,user_embedding ,valid_sampler, mode
                         
                 user_embedding=average_pooling(user_embedding)
                 print("user_count",user_count)
-            with open('user_embedding/'+ args.dataset+ 'user_embedding.pkl', 'wb') as f:
-                    pickle.dump(user_embedding, f)
+            # with open('user_embedding/'+ args.dataset+ 'user_embedding.pkl', 'wb') as f:
+            #         pickle.dump(user_embedding, f)
             logger.info('Early Stop!')
             break
         else:
@@ -362,10 +362,10 @@ def main():
         
         print('-------------stage 2 begin-------------')
         # stage 2
-        if(len(user_embedding)==0):
-            with open('user_embedding/'+ args.dataset +'user_embedding.pkl', 'rb') as f:
-                user_embedding = pickle.load(f)
-                print('pkl')
+        # if(len(user_embedding)==0):
+        #     with open('user_embedding/'+ args.dataset +'user_embedding.pkl', 'rb') as f:
+        #         user_embedding = pickle.load(f)
+        #         print('pkl')
         print(len(user_embedding))
         predictor(train_dataset,train_sampler, user_embedding,valid_sampler, model,predictor_layer, optimizer_predictor, user_traj_train, devices, args, logger,wandb_log)
         print('-------------stage 2 end-------------')
