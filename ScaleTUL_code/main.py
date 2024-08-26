@@ -158,7 +158,7 @@ def train_model(train_dataset, train_sampler,user_embedding ,valid_sampler, mode
         torch.cuda.empty_cache()
         valid_dataloader = get_dataloader(traj_dataset = train_dataset, load_datatype='valid', batch_size=args.batch_size, sampler=valid_sampler,  user_traj_train=user_traj_train,mask_ratio=args.mask)
         loss_valid_list, y_predict_list, y_true_list, acc1_list, acc5_list = [], [], [], [], []
-        loss_valid_con_list = [], []
+        loss_valid_con_list = []
             
         with torch.no_grad():
 
