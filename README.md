@@ -7,4 +7,5 @@ numpy == 1.25.2
 ## Dataset：
 We provide two datasets for quick testing (NYC,TKY), U=400.
 ## Usage
-  python main.py
+Run main.py:
+  `python main.py`
