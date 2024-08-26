@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class PredictorLayer(nn.Module):
-    def __init__(self,embed_size,user_embed_size):
+    def __init__(self,embed_size):
         super().__init__()
         self.embed_size = embed_size
         self.user_embed_size = int(embed_size/2)
