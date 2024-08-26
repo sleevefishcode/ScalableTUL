@@ -6,7 +6,7 @@ import torch.nn as nn
 import os
 import matplotlib.pyplot as plt
 from collections import defaultdict
-def split_dataset(dataset_path,user_embed_size):
+def split_dataset(dataset_path):
 
     print('----------load dataset...----------')
 
