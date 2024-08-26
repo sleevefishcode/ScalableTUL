@@ -293,7 +293,7 @@ def main():
     )
     dataset_path = './dataset/'+ args.dataset + '.csv'
     #---------------------dataset split----------------#
-    user_traj_train, user_traj_test, train_nums, poi_nums, category_nums , user_nums,user_embedding = split_dataset(dataset_path,args.user_embed_size)
+    user_traj_train, user_traj_test, train_nums, poi_nums, category_nums , user_nums,user_embedding = split_dataset(dataset_path)
     print("mask:",args.mask)
 
     #--------------get pytorch-style dataset-----------#
@@ -324,12 +324,12 @@ def main():
 
         mamba_embedding=TransformerTimeAwareEmbedding(Temporal_encoding_layer,args.embed_size, poi_nums, category_nums)
         Mamba_encoder=single_Mamba(mamba_embedding,args.embed_size*2)
-        model = TulNet(LSTM_encoder,Mamba_encoder,args.user_embed_size,args.embed_size)
+        model = TulNet(LSTM_encoder,Mamba_encoder,args.embed_size)
         model = nn.DataParallel(model, device_ids=devices).to(devices[0])
 
         projection_layer=ProjectionLayer(args.embed_size)
         projection_layer = nn.DataParallel(projection_layer, device_ids=devices).to(devices[0])
-        predictor_layer=PredictorLayer(args.embed_size,args.user_embed_size)
+        predictor_layer=PredictorLayer(args.embed_size)
         predictor_layer = nn.DataParallel(predictor_layer, device_ids=devices).to(devices[0])
         
         optimizer = torch.optim.Adam(list(model.parameters())+list(projection_layer.parameters()), lr=args.lr)
