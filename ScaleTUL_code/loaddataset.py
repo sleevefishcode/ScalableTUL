@@ -6,7 +6,7 @@ from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 from torch.utils.data.sampler import SubsetRandomSampler
 from preprocess import split_dataset
-from utils import truncate_trajectory,Mask_trajectory
+from utils import Mask_trajectory
 
 class TulDataset(Dataset):
     def __init__(self, data):
