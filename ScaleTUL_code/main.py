@@ -35,7 +35,7 @@ def parse_args():
     """
     parse = argparse.ArgumentParser(description='ScaleTUL')
     parse.add_argument('--times', type=int, default=1, help='times of repeat experiment')
-    parse.add_argument('--dataset', type=str, default="weeplace_mini", help='dataset for experiment')
+    parse.add_argument('--dataset', type=str, default="foursquare_mini", help='dataset for experiment')
     parse.add_argument('--epochs', type=int, default=100, help='Number of total epochs')
     parse.add_argument('--batch_size', type=int, default=512, help='Size of one batch')
     parse.add_argument('--lr', type=float, default=1e-3, help='Initial learning rate')
