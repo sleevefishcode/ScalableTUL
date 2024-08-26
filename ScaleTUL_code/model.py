@@ -220,7 +220,7 @@ class single_Mamba(nn.Module):
         Mamba_output=Mamba_output[:,-1,:]
         return Mamba_output
 class TulNet(nn.Module):
-    def __init__(self, LSTM_encoder,Mamba_encoder, user_embed_size,embed_size):
+    def __init__(self, LSTM_encoder,Mamba_encoder,embed_size):
         super(TulNet, self).__init__()
         
         self.LSTM_encoder = LSTM_encoder
