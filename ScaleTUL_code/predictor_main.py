@@ -12,7 +12,7 @@ from loaddataset import get_dataset, get_dataloader
 from preprocess import split_dataset
 from utils import EarlyStopping_acc, accuracy_1, accuracy_5, loss_with_plot
 from sklearn.metrics import f1_score, precision_score, recall_score,accuracy_score
-from model import calculate_and_sort_similarity,calculate_similarity
+from model import calculate_similarity
 from test import test_model
 from loss import SupConLoss
 import warnings
