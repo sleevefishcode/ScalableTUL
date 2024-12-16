@@ -28,7 +28,7 @@ def cos_loss(output,target):
     loss=cosine_loss(output,target,y)
     return loss
     
-RESUME=False
+
 def predictor(train_dataset, train_sampler,user_embedding ,valid_sampler, model,predictor_layer, optimizer, user_traj_train, devices, args, logger,wandb_log):
     avg_train_losses = []
     avg_valid_losses = []
@@ -39,17 +39,12 @@ def predictor(train_dataset, train_sampler,user_embedding ,valid_sampler, model,
     scheduler = torch.optim.lr_scheduler.StepLR(optimizer, 5, gamma=0.1)
     checkpoint=torch.load('temp/'+ args.dataset+str(args.seed) +'final_best_checkpoint.pt')
     model.load_state_dict(checkpoint['net'])
-    start_epoch=0
     user_embedding_on_device = {}
     
 
     for user_id, embedding_vector in user_embedding.items():
         tensor_embedding = torch.tensor(embedding_vector).to(devices[0])
         user_embedding_on_device[user_id] = tensor_embedding
-    if RESUME:
-        checkpoint=torch.load('temp/'+ args.dataset +'_best_checkpoint.pt')    
-        start_epoch = checkpoint['epoch']  
-        scheduler.load_state_dict(checkpoint['lr_scheduler'])
     for epoch_idx in range(args.epochs+start_epoch):
         model.eval()
         predictor_layer.train()
@@ -148,9 +143,7 @@ def predictor(train_dataset, train_sampler,user_embedding ,valid_sampler, model,
         avg_valid_losses.append(np.mean(loss_valid_list))
         avg_valid_acc.append((np.mean(acc1_list)))
         checkpoint = {
-            # "net": predictor_layer.state_dict(),
             "predictor_layer": predictor_layer.state_dict(),
-            # "projector_layer": projection_layer.state_dict(),
             'optimizer': optimizer.state_dict(),
             "epoch": epoch_idx,
             'lr_scheduler': scheduler.state_dict()
