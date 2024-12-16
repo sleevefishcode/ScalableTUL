@@ -42,8 +42,7 @@ def parse_args():
     parse.add_argument('--temperature', type=float, default=0.1, help='contastive Temperature hyperparameter')
 
     parse.add_argument('--embed_size', type=int, default=512, help='Number of embeding dim')
-    parse.add_argument('--num_heads', type=int, default=8, help='Number of heads')
-    parse.add_argument('--num_layers', type=int, default=3, help='Number of EncoderLayer')
+
     parse.add_argument('--mask', type=float, default=0.9, help='Ratio of mask POI')
     parse.add_argument('--seed', type=int, default=2024, help='set of seed')
     args = parse.parse_args()
