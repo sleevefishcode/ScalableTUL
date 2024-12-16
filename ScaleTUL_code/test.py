@@ -12,7 +12,7 @@ from loaddataset import get_dataset, get_dataloader
 from preprocess import split_dataset
 from utils import  accuracy_1, accuracy_5
 from sklearn.metrics import f1_score, precision_score, recall_score,accuracy_score
-from model import calculate_and_sort_similarity,calculate_similarity
+from model import calculate_similarity
 import warnings
 
 from predictor import PredictorLayer
@@ -54,7 +54,7 @@ def test_model(dataset,test_dataset,user_embedding, model,predictor_layer, devic
       
             one_batch_label_embedding_on_device = torch.stack([user_embedding_on_device[str(label.item())] for label in one_batch_label])
             output = model(poi_seq_1, category_seq_1, hour_seq_1, current_len_1, time_seq_1)
-            # x=output
+     
             
             test_prediction_output=predictor_layer(output)
        
