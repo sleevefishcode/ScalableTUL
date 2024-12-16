@@ -91,14 +91,4 @@ def get_dataset(user_traj_train, user_traj_test, train_nums):
     return train_dataset, test_dataset, train_sampler, valid_sampler
 
 
-if __name__=='__main__':
-    user_traj_train, user_traj_test, train_nums, poi_nums, category_nums , user_nums,user_embedding = split_dataset('./dataset/foursquare_mini.csv',100)
-    train_dataset, test_dataset, train_sampler, valid_sampler = get_dataset(user_traj_train, user_traj_test, train_nums)
-    train_dataloader = get_dataloader(traj_dataset = train_dataset, load_datatype='train', batch_size=3, sampler=train_sampler, user_traj_train=user_traj_train)
-    for current_poi_seq, current_category_seq, current_hour_seq, current_time_seq, current_len,   longterm_poi_seq,longterm_category_seq, longterm_hour_seq, longterm_time_seq, longterm_len, one_batch_label  in train_dataloader:
-   
-        print(current_poi_seq)
 
-        print(current_time_seq.shape)
- 
-        exit()
