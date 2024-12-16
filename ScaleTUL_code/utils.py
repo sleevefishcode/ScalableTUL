@@ -8,8 +8,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score
 from tqdm import tqdm
 class EarlyStopping_acc:
-    """[Early stops the training if validation loss doesn't improve after a given patience.]
-    """
+
 
     def __init__(self, logger, dataset_name,seed, patience=3, verbose=False, delta=0):
         """[Receive optional parameters]
