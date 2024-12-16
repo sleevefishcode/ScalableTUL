@@ -115,10 +115,9 @@ def predictor(train_dataset, train_sampler,user_embedding ,valid_sampler, model,
                 loss_valid_list.append(loss_valid.item())
                 
                 
-            macro_p = precision_score(y_true_list, y_predict_list, average='macro')
+           
             macro_r = recall_score(y_true_list, y_predict_list, average='macro')
             macro_f1 = f1_score( y_true_list, y_predict_list, average='macro')
-            micro_p = precision_score(y_true_list, y_predict_list, average='micro')
             micro_r = recall_score(y_true_list, y_predict_list, average='micro')
             micro_f1 = f1_score( y_true_list, y_predict_list, average='micro')
             wandb_log.log(
@@ -127,17 +126,15 @@ def predictor(train_dataset, train_sampler,user_embedding ,valid_sampler, model,
                         "predictor-valid loss": np.mean(loss_valid_list),
                         "predictor-valid acc@1":np.mean(acc1_list),
                         "predictor-valid acc@5":np.mean(acc5_list),
-                        "predictor-valid macro_p":macro_p,
                         "predictor-valid macro_r":macro_r,
                         "predictor-valid macro_f1":macro_f1,
-                        "predictor-valid micro_p":micro_p,
                         "predictor-valid micro_r":micro_r,
                         "predictor-valid micro_f1":micro_f1,
                         
                     }
                 )            
-            output_content = "Valid epoch:{}   valid_loss:{:.6f} acc@1:{:.6f} acc@5:{:.6f} macro_p:{:.6f} macro_r:{:.6f} macro_f1:{:.6f} micro_p:{:.6f} micro_r:{:.6f} micro_f1:{:.6f}"
-            logger.info(output_content.format(epoch_idx,np.mean(loss_valid_list), np.mean(acc1_list), np.mean(acc5_list),macro_p, macro_r, macro_f1,micro_p, micro_r, micro_f1))
+            output_content = "Valid epoch:{}   valid_loss:{:.6f} acc@1:{:.6f} acc@5:{:.6f}  macro_r:{:.6f} macro_f1:{:.6f}  micro_r:{:.6f} micro_f1:{:.6f}"
+            logger.info(output_content.format(epoch_idx,np.mean(loss_valid_list), np.mean(acc1_list), np.mean(acc5_list), macro_r, macro_f1, micro_r, micro_f1))
         
         avg_train_losses.append(np.mean(loss_train_list))
         avg_valid_losses.append(np.mean(loss_valid_list))
