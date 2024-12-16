@@ -25,7 +25,7 @@ import pickle
 from predictor_main import predictor
 warnings.filterwarnings("ignore")
 import os 
-os.environ['CUDA_VISIBLE_DEVICES'] ='3'  
+os.environ['CUDA_VISIBLE_DEVICES'] ='0'  
 
 def parse_args():
     """[This is a function used to parse command line arguments]
@@ -97,11 +97,6 @@ def train_model(train_dataset, train_sampler,user_embedding ,valid_sampler, mode
     start_epoch=0
 
     criterion = SupConLoss(temperature=args.temperature)
-    if RESUME:
-        checkpoint=torch.load('temp/'+ args.dataset +'_best_checkpoint.pt')    
-        start_epoch = checkpoint['epoch'] 
-        
-        scheduler.load_state_dict(checkpoint['lr_scheduler'])
 
     for epoch_idx in range(args.epochs+start_epoch):
         model.train()
@@ -273,7 +268,7 @@ def min_pooling(user_embeddings):
         stacked_embeddings = torch.stack(embeddings)
         min_pooled_embeddings[user_id] = torch.min(stacked_embeddings, dim=0)[0]
     return min_pooled_embeddings
-RESUME=False
+
 def main():
     args = parse_args()
     logger = getLogger(args.dataset)
@@ -335,12 +330,6 @@ def main():
         optimizer = torch.optim.Adam(list(model.parameters())+list(projection_layer.parameters()), lr=args.lr)
         optimizer_predictor=torch.optim.Adam(list(predictor_layer.parameters()), lr=args.lr/2)
       
-        if RESUME :
-            checkpoint=torch.load('temp/'+ args.dataset +'_best_checkpoint.pt')
-            model.load_state_dict(checkpoint['net'])
-            optimizer.load_state_dict(checkpoint['optimizer'])  
-
-        # optimizer=nn.DataParallel(optimizer, device_ids=devices)
         #-------------Start training and logging-------------#
         logger.info('The {} round, start training with random seed {}'.format(idx, seed))
         current_time = time.time()
@@ -361,11 +350,6 @@ def main():
         torch.cuda.empty_cache()
         
         print('-------------stage 2 begin-------------')
-        # stage 2
-        # if(len(user_embedding)==0):
-        #     with open('user_embedding/'+ args.dataset +'user_embedding.pkl', 'rb') as f:
-        #         user_embedding = pickle.load(f)
-        #         print('pkl')
         print(len(user_embedding))
         predictor(train_dataset,train_sampler, user_embedding,valid_sampler, model,predictor_layer, optimizer_predictor, user_traj_train, devices, args, logger,wandb_log)
         print('-------------stage 2 end-------------')
