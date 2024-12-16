@@ -103,7 +103,4 @@ def merge_daily_to_twoweekly(user_traj,train_nums):
         train_nums += 1
     
     return weekly_traj,train_nums
-if __name__=='__main__':
-    user_traj_train, user_traj_test, train_nums, poi_nums, category_nums , user_nums,user_embedding = split_dataset('./dataset/foursquare_NY_mini.csv',512)
-    # print(user_traj_test)
-    # print(train_nums, poi_nums, category_nums , user_nums)
+
