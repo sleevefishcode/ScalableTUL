@@ -64,21 +64,21 @@ def calculate_similarity(label_repr_dict, user2_repr):
     
     return top_user_id,top_user_id5
 
-def calculate_and_sort_similarity(user_outputs, user2_output):
+# def calculate_and_sort_similarity(user_outputs, user2_output):
 
 
-    user_matrix = torch.stack(list(user_outputs.values()), dim=0)
+#     user_matrix = torch.stack(list(user_outputs.values()), dim=0)
     
 
-    similarities = F.cosine_similarity(user_matrix, user2_output, dim=1)
+#     similarities = F.cosine_similarity(user_matrix, user2_output, dim=1)
 
-    sorted_indices = torch.argsort(similarities, descending=True)
+#     sorted_indices = torch.argsort(similarities, descending=True)
 
-    top_user_id = list(user_outputs.keys())[sorted_indices[0].item()]
+#     top_user_id = list(user_outputs.keys())[sorted_indices[0].item()]
     
-    top_user_id5=[int(list(user_outputs.keys())[index.item()]) for index in sorted_indices[:5]]
+#     top_user_id5=[int(list(user_outputs.keys())[index.item()]) for index in sorted_indices[:5]]
 
-    return int(top_user_id),top_user_id5
+#     return int(top_user_id),top_user_id5
 
 
 class TemporalEncoding(nn.Module):
