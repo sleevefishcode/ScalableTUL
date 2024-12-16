@@ -75,10 +75,8 @@ def test_model(dataset,test_dataset,user_embedding, model,predictor_layer, devic
             loss_1 = compute_loss(test_prediction_output, one_batch_label_embedding_on_device)
             loss_test_list_1.append(loss_1.item())
       
-        macro_p = precision_score(y_true_list_1, y_predict_list_1, average='macro')
         macro_r = recall_score(y_true_list_1, y_predict_list_1, average='macro')
         macro_f1 = f1_score(y_true_list_1, y_predict_list_1, average='macro')
-        micro_p = precision_score(y_true_list_1, y_predict_list_1, average='micro')
         micro_r = recall_score(y_true_list_1, y_predict_list_1, average='micro')
         micro_f1 = f1_score( y_true_list_1, y_predict_list_1, average='micro')
         wandb_log.log(
@@ -86,15 +84,13 @@ def test_model(dataset,test_dataset,user_embedding, model,predictor_layer, devic
                     "test loss": np.mean(loss_test_list_1),
                     "test acc@1":np.mean(acc1_list),
                     "test acc@5":np.mean(acc5_list_1),
-                    "test macro_p":macro_p,
                     "test macro_r":macro_r,
                     "test macro_f1":macro_f1,
-                     "test micro_p":micro_p,
                     "test micro_r":micro_r,
                     "test micro_f1":micro_f1,
                 }
             )         
-        output_content = "Test \t loss:{:.6f} acc@1:{:.6f} acc@5:{:.6f} macro_p:{:.6f} macro_r:{:.6f} macro_f1:{:.6f} micro_p:{:.6f} micro_r:{:.6f} micro_f1:{:.6f}"
-        logger.info(output_content.format(np.mean(loss_test_list_1), np.mean(acc1_list),np.mean(acc5_list_1), macro_p, macro_r, macro_f1,micro_p, micro_r, micro_f1))
+        output_content = "Test \t loss:{:.6f} acc@1:{:.6f} acc@5:{:.6f}  macro_r:{:.6f} macro_f1:{:.6f} micro_r:{:.6f} micro_f1:{:.6f}"
+        logger.info(output_content.format(np.mean(loss_test_list_1), np.mean(acc1_list),np.mean(acc5_list_1), macro_r, macro_f1, micro_r, micro_f1))
 
        
