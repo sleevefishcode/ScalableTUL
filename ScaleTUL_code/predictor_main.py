@@ -11,7 +11,7 @@ import wandb
 from loaddataset import get_dataset, get_dataloader
 from preprocess import split_dataset
 from utils import EarlyStopping_acc, accuracy_1, accuracy_5, loss_with_plot
-from sklearn.metrics import f1_score, precision_score, recall_score,accuracy_score
+from sklearn.metrics import f1_score, recall_score,accuracy_score
 from model import calculate_similarity
 from test import test_model
 from loss import SupConLoss
@@ -41,7 +41,6 @@ def predictor(train_dataset, train_sampler,user_embedding ,valid_sampler, model,
     model.load_state_dict(checkpoint['net'])
     user_embedding_on_device = {}
     
-
     for user_id, embedding_vector in user_embedding.items():
         tensor_embedding = torch.tensor(embedding_vector).to(devices[0])
         user_embedding_on_device[user_id] = tensor_embedding
@@ -49,7 +48,6 @@ def predictor(train_dataset, train_sampler,user_embedding ,valid_sampler, model,
         model.eval()
         predictor_layer.train()
         loss_train_list = []
-        loss_train_MAE_list = []
         for batch_idx, (poi_seq, category_seq, hour_seq, time_seq, current_len, positive_poi, positive_category, positive_hour, positive_time, positive_current_len, one_batch_label) in enumerate(tqdm(train_dataloader)):
             poi_seq, category_seq, hour_seq, time_seq= poi_seq.to(devices[0]), category_seq.to(devices[0]), hour_seq.to(devices[0]), time_seq.to(devices[0])
             current_len, one_batch_label = current_len.to(devices[0]), one_batch_label.to(devices[0])
@@ -58,8 +56,7 @@ def predictor(train_dataset, train_sampler,user_embedding ,valid_sampler, model,
                 train_output = model(poi_seq, category_seq, hour_seq, current_len, time_seq)
             train_prediction_output=predictor_layer(train_output.detach())
         
-            loss_train_MAE = cos_loss(train_prediction_output, one_batch_label_embedding_on_device)
-            loss_train=loss_train_MAE
+            loss_train = cos_loss(train_prediction_output, one_batch_label_embedding_on_device)
      
 
             optimizer.zero_grad()
@@ -80,7 +77,7 @@ def predictor(train_dataset, train_sampler,user_embedding ,valid_sampler, model,
         torch.cuda.empty_cache()
         valid_dataloader = get_dataloader(traj_dataset = train_dataset, load_datatype='valid', batch_size=args.batch_size, sampler=valid_sampler,  user_traj_train=user_traj_train)
         loss_valid_list, y_predict_list, y_true_list, acc1_list, acc5_list = [], [], [], [], []
-        loss_valid_MAE_list , loss_valid_con_list = [], []   
+        loss_valid_con_list = []   
         with torch.no_grad():
 
             for batch_idx, (poi_seq, category_seq, hour_seq, time_seq, current_len,positive_poi, positive_category, positive_hour, positive_time, positive_current_len,one_batch_label) in enumerate(tqdm(valid_dataloader)):
@@ -107,8 +104,7 @@ def predictor(train_dataset, train_sampler,user_embedding ,valid_sampler, model,
 
                 acc5_list.extend(acc5)
 
-                loss_val_MAE = cos_loss(val_prediction_output, one_batch_label_embedding_on_device)
-                loss_valid=loss_val_MAE
+                loss_valid = cos_loss(val_prediction_output, one_batch_label_embedding_on_device)
           
 
                 
