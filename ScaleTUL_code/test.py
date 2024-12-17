@@ -38,19 +38,18 @@ def test_model(dataset,test_dataset,user_embedding, model,predictor_layer, devic
     predictor_layer.eval()
     test_dataloader = get_dataloader(traj_dataset = test_dataset, load_datatype='test', batch_size=args.batch_size)
     loss_test_list_1, y_predict_list_1, y_true_list_1, acc1_list, acc5_list_1 = [], [], [], [], []
-    
+     
+    user_embedding_on_device = {}
+    for user_id, embedding_vector in user_embedding.items():
+        tensor_embedding = torch.tensor(embedding_vector).to(devices[0])
+        user_embedding_on_device[user_id] = tensor_embedding
     with torch.no_grad():
         for poi_seq_1, category_seq_1, hour_seq_1, time_seq_1, current_len_1,one_batch_label in test_dataloader:
             
             poi_seq_1, category_seq_1, hour_seq_1, time_seq_1 = poi_seq_1.to(devices[0]), category_seq_1.to(devices[0]), hour_seq_1.to(devices[0]), time_seq_1.to(devices[0])
             current_len_1, one_batch_label = current_len_1.to(devices[0]) ,one_batch_label.to(devices[0])          
             
-  
-            user_embedding_on_device = {}
-
-            for user_id, embedding_vector in user_embedding.items():
-                tensor_embedding = torch.tensor(embedding_vector).to(devices[0])
-                user_embedding_on_device[user_id] = tensor_embedding
+ 
       
             one_batch_label_embedding_on_device = torch.stack([user_embedding_on_device[str(label.item())] for label in one_batch_label])
             output = model(poi_seq_1, category_seq_1, hour_seq_1, current_len_1, time_seq_1)
