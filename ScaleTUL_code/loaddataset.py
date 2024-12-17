@@ -81,7 +81,6 @@ def get_dataloader(traj_dataset, load_datatype, batch_size, sampler=None, user_t
 def get_dataset(user_traj_train, user_traj_test, train_nums):
     indices = list(range(train_nums))
     split = int(np.floor(train_nums * 0.8))
-    np.random.seed(666)
     np.random.shuffle(indices)
     train_idx, valid_idx = indices[:split], indices[split:]
     train_sampler = SubsetRandomSampler(train_idx)
