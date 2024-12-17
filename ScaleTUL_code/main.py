@@ -11,7 +11,7 @@ import wandb
 from loaddataset import get_dataset, get_dataloader
 from preprocess import split_dataset
 from utils import EarlyStopping_loss, accuracy_1, accuracy_5, loss_with_plot
-from sklearn.metrics import f1_score, precision_score, recall_score,accuracy_score
+from sklearn.metrics import f1_score, recall_score,accuracy_score
 from model import LSTMEncoder, TulNet, single_Mamba,TemporalEncoding, MambaTimeAwareEmbedding, LstmTimeAwareEmbedding
 from test import test_model
 from loss import SupConLoss
