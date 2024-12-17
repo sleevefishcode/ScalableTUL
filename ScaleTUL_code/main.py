@@ -253,30 +253,14 @@ def average_pooling(user_embeddings):
         stacked_embeddings = torch.stack(embeddings) 
         avg_pooled_embeddings[user_id] = torch.mean(stacked_embeddings, dim=0)
     return avg_pooled_embeddings
-def max_pooling(user_embeddings):
-    max_pooled_embeddings = {}
-    for user_id, embeddings in user_embeddings.items():
-    
-        stacked_embeddings = torch.stack(embeddings) 
-        max_pooled_embeddings[user_id] = torch.max(stacked_embeddings, dim=0)[0]
-    return max_pooled_embeddings
-
-def min_pooling(user_embeddings):
-    min_pooled_embeddings = {}
-    for user_id, embeddings in user_embeddings.items():
-        stacked_embeddings = torch.stack(embeddings)
-        min_pooled_embeddings[user_id] = torch.min(stacked_embeddings, dim=0)[0]
-    return min_pooled_embeddings
 
 def main():
     args = parse_args()
     logger = getLogger(args.dataset)
     wandb_log = wandb.init(
-
     project="Scale_TUL",
     name="Scale_TUL",
     notes='Scale_TUL',
-
     config={
         "learning_rate": args.lr,
         "epochs": args.epochs,
@@ -288,7 +272,7 @@ def main():
     dataset_path = './dataset/'+ args.dataset + '.csv'
     #---------------------dataset split----------------#
     user_traj_train, user_traj_test, train_nums, poi_nums, category_nums , user_nums,user_embedding = split_dataset(dataset_path)
-    print("mask:",args.mask)
+    # print("mask:",args.mask)
 
     #--------------get pytorch-style dataset-----------#
     train_dataset, test_dataset, train_sampler, valid_sampler = get_dataset(user_traj_train, user_traj_test, train_nums)
