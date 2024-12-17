@@ -123,7 +123,7 @@ class LstmTimeAwareEmbedding(nn.Module):
      
         return self.dropout(self.tanh(self.fc(torch.cat([token_emb, hour_emb], dim=-1))))
 
-class TransformerTimeAwareEmbedding(nn.Module):
+class MambaTimeAwareEmbedding(nn.Module):
     def __init__(self, encoding_layer, embed_size, poi_nums, category_nums):
         super().__init__()
         self.embed_size = embed_size
