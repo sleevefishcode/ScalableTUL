@@ -12,7 +12,7 @@ from loaddataset import get_dataset, get_dataloader
 from preprocess import split_dataset
 from utils import EarlyStopping_loss, accuracy_1, accuracy_5, loss_with_plot
 from sklearn.metrics import f1_score, precision_score, recall_score,accuracy_score
-from model import LSTMEncoder, TulNet, single_Mamba,TemporalEncoding, TransformerTimeAwareEmbedding, LstmTimeAwareEmbedding
+from model import LSTMEncoder, TulNet, single_Mamba,TemporalEncoding, MambaTimeAwareEmbedding, LstmTimeAwareEmbedding
 from test import test_model
 from loss import SupConLoss
 import warnings
@@ -316,7 +316,7 @@ def main():
 
         Temporal_encoding_layer = TemporalEncoding(args.embed_size)
 
-        mamba_embedding=TransformerTimeAwareEmbedding(Temporal_encoding_layer,args.embed_size, poi_nums, category_nums)
+        mamba_embedding=MambaTimeAwareEmbedding(Temporal_encoding_layer,args.embed_size, poi_nums, category_nums)
         Mamba_encoder=single_Mamba(mamba_embedding,args.embed_size*2)
         model = TulNet(LSTM_encoder,Mamba_encoder,args.embed_size)
         model = nn.DataParallel(model, device_ids=devices).to(devices[0])
