@@ -13,7 +13,7 @@ Run main.py:
   `python main.py`
 ## Citation：
 If you find our work is helpful, please cite as:
-<pre> ```@inproceedings{zhang2025scalable,
+<pre> @inproceedings{zhang2025scalable,
   title={Scalable Trajectory-User Linking with Dual-Stream Representation Networks},
   author={Zhang, Hao and Chen, Wei and Zhao, Xingyu and Qi, Jianpeng and Jiang, Guiyuan and Yu, Yanwei},
   booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
@@ -21,4 +21,4 @@ If you find our work is helpful, please cite as:
   number={12},
   pages={13224--13232},
   year={2025}
-} ``` </pre>
+} </pre>
